@@ -5,14 +5,18 @@
 
 #include "node.h"
 #include "main.h"
+#include "parser.h"
+#include "backend.h"
 
 std::set<char> bf_chars;
 
 Lexer * lexer = NULL;
+Block_Node * root = NULL;
 
 std::ifstream bf_file;
 int main(int argc, char ** argv)
 {
+	std::cout<<"Compiling "<<argv[1]<<std::endl;
 
 	{
 		bf_chars.insert('+');
@@ -26,9 +30,15 @@ int main(int argc, char ** argv)
 	}
 	std::string bf_filname(argv[1]);
 	std::string c_filename(argv[2]);
-
 	lexer = new First_Lexer(bf_filname);
-	Node * root = program();
+	Parser * parser = new BF_Parser;
+	Backend * backend = new Test_Backend;
+	root = parser->program();
+	if(parser->is_error)
+	{
+		std::cout<<"Compiling failed!"<<std::endl;
+	}
+	backend->output(c_filename);
 	return 0;
 }
 
@@ -42,7 +52,7 @@ int main(int argc, char ** argv)
 First_Lexer::First_Lexer(std::string bf_filename)
 {
 	bf_file.open(bf_filename);
-	current_offset = 0;
+	current_offset = -1;
 	current_line = 1;
 }
 
@@ -59,8 +69,8 @@ Token * First_Lexer::get_next_token()
 		}
 		if('\n' == current_char)
 		{
-			current_offset = 0;
-			current_line = 0;
+			current_offset = -1;
+			current_line++;
 		}
 	}
 	bf_file.close();
@@ -71,21 +81,7 @@ Token * First_Lexer::get_next_token()
 
 
 
-Node * program()
-{
 
-}
-
-
-void bf_operator(Block_Node * base)
-{
-
-}
-
-void loop(Block_Node * base)
-{
-
-}
 
 
 
@@ -99,6 +95,12 @@ void loop(Block_Node * base)
 
 
 void info(std::string info_msg)
+{
+	std::cout<<info_msg;
+}
+
+
+void infon(std::string info_msg)
 {
 	std::cout<<info_msg<<std::endl;
 }

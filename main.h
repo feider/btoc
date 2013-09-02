@@ -21,14 +21,14 @@ enum TokenType
 class Token
 {
 public:
-	Token(char chr, unsigned int line, unsigned int offset);
+	Token(char chr,  int line,  int offset);
 	
 	Token();
 
 	TokenType type;
 	char chr;
-	unsigned int line;
-	unsigned int offset;
+	 int line;
+	 int offset;
 	std::string to_string();
 };
 
@@ -37,8 +37,8 @@ class Lexer
 public:
 	virtual Token * get_next_token() = 0;
 	//Lexer();
-	unsigned int current_line;
-	unsigned int current_offset;
+	 int current_line;
+	 int current_offset;
 };
 
 class First_Lexer : public Lexer
@@ -50,15 +50,13 @@ public:
 
 
 
-class Parser
-{
-public:
-	
-};
-
 
 
 
 void info(std::string info_msg);
+void infon(std::string info_msg);
+
+extern Lexer * lexer;
+extern Block_Node * root;
 
 #endif
