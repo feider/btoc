@@ -32,7 +32,7 @@ int main(int argc, char ** argv)
 	std::string c_filename(argv[2]);
 	lexer = new First_Lexer(bf_filname);
 	Parser * parser = new BF_Parser;
-	Backend * backend = new Test_Backend;
+	Backend * backend = new C_Backend;
 	root = parser->program();
 	if(parser->is_error)
 	{

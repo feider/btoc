@@ -20,4 +20,11 @@ public:
 	void output(std::string output_filename);
 };
 
+class C_Backend : public Backend
+{
+public:
+	std::string to_string(Block_Node * loop_node, int depth);
+	void output(std::string output_filename);
+};
+
 #endif
