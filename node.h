@@ -26,22 +26,22 @@ class Node
 {
 public:
 	NodeType type;
-	unsigned int line;
-	unsigned int offset;
+	 int line;
+	 int offset;
 	bool direction;
-	void init(int line, int offset, bool direction);
+	virtual void init( int line,  int offset, bool direction)=0;
 };
 
 class Block_Node : public Node
 {
 public:
-	std::vector<Node> nodes;
+	std::vector<Node*> nodes;
 };
 
 class Root_Node : public Block_Node
 {
 public:
-	void init(int line, int offset, bool direction)
+	void init( int line,  int offset, bool direction)
 	{
 		this->line = line;
 		this->offset = offset;
@@ -52,7 +52,7 @@ public:
 class Loop_Node : public Block_Node
 {
 public:
-	void init(int line, int offset, bool direction)
+	void init( int line,  int offset, bool direction)
 	{
 		this->line = line;
 		this->offset = offset;
@@ -68,7 +68,7 @@ public:
 class Pointer_Node : public Operation_Node
 {
 public:
-	void init(int line, int offset, bool direction)
+	void init( int line,  int offset, bool direction)
 	{
 		this->direction = direction;
 		this->line = line;
@@ -80,7 +80,7 @@ public:
 class Cell_Node : public Operation_Node
 {
 public:
-	void init(int line, int offset, bool direction)
+	void init( int line,  int offset, bool direction)
 	{
 		this->direction = direction;
 		this->line = line;
@@ -92,7 +92,7 @@ public:
 class IO_Node : public Operation_Node
 {
 public:
-	void init(int line, int offset, bool direction)
+	void init( int line,  int offset, bool direction)
 	{
 		this->direction = direction;
 		this->line = line;
@@ -101,9 +101,6 @@ public:
 	}
 };
 
-Node * program();
-void bf_operator(Block_Node * base);
-void loop(Block_Node * base);
 
 
 #endif
