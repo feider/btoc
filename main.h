@@ -3,7 +3,7 @@
 
 #include <string>
 
-
+class Block_Node;
 
 enum TokenType
 {
